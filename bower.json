@@ -4,7 +4,7 @@
     "Daniel Rivas <ers.daniel+dev@gmail.com>"
   ],
   "description": "jQuery plugin for typing animations",
-  "main": "src/js/typing.js",
+  "main": "typing.js",
   "dependencies": {
 	"jquery": "~2.1.4"
   },
