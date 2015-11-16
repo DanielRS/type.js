@@ -4,7 +4,7 @@
     "Daniel Rivas <ers.daniel+dev@gmail.com>"
   ],
   "description": "jQuery plugin for typing animations",
-  "main": "src/type.js",
+  "main": "src/js/type.js",
   "moduleType": [
     "globals"
   ],
