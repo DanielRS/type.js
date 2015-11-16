@@ -1,0 +1,27 @@
+{
+  "name": "type.js",
+  "authors": [
+    "Daniel Rivas <ers.daniel+dev@gmail.com>"
+  ],
+  "description": "jQuery plugin for typing animations",
+  "main": "src/type.js",
+  "moduleType": [
+    "globals"
+  ],
+  "keywords": [
+    "type",
+    "animation",
+    "jquery-plugin",
+    "small",
+    "lightweight"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/DanielRS/type.js",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
