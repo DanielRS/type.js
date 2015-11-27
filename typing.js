@@ -92,7 +92,8 @@
 					// Next step
 					setTimeout(typeSentence, settings.typeDelay, newStr, targetStr, sentences);
 				} else {
-					settings.onSentenceFinish.call(this_);
+					if (isFunction(settings.onSentenceFinish))
+						settings.onSentenceFinish.call(this_);
 					typeArray(tail(sentences));
 				}
 			}
@@ -102,7 +103,7 @@
 				if (text !== undefined) {
 					setTimeout(typeSentence, settings.sentenceDelay, $content.text(), targetStr, sentences);
 				}
-				else {
+				else if (isFunction(settings.onFinish)) {
 					settings.onFinish.call(this_);
 				}
 			}
