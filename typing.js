@@ -73,13 +73,13 @@
 			this_.append($content);
 			this_.append($caret);
 
-			function typeSentence(current, target, sentences) {
-				if (current !== target) {
-					var newStr = typeTo(current, target);
+			function typeSentence(currentStr, targetStr, sentences) {
+				if (currentStr !== targetStr) {
+					var newStr = typeTo(currentStr, targetStr);
 					// Step callback
-					if (newStr.length > current.length && isFunction(settings.onType)) {
+					if (newStr.length > currentStr.length && isFunction(settings.onType)) {
 						settings.onType.call(this_);
-					} else if (newStr.length < current.length && isFunction(settings.onBackspace)) {
+					} else if (newStr.length < currentStr.length && isFunction(settings.onBackspace)) {
 						settings.onBackspace.call(this_)
 					}
 					// Update content
@@ -93,7 +93,6 @@
 
 			function typeArray(sentences) {
 				var targetStr = head(sentences);
-				console.log(targetStr);
 				if (text !== undefined) {
 					setTimeout(typeSentence, settings.sentenceDelay, $content.text(), targetStr);
 				}
