@@ -6,7 +6,7 @@ A simple and lightweight jQuery plugin for type animations.
 
 Simply use jQuery's selection and call `type`:
 
-```
+```javascript
 ...
 $('p').type({ sentences: ['Lorem ipSOM do', 'Lorem ipsum dolor SIT amet', 'Lorem ipsum dolor sit amet']});
 ...
@@ -36,6 +36,6 @@ $('p').type({ sentences: ['Lorem ipSOM do', 'Lorem ipsum dolor SIT amet', 'Lorem
 
 **onSentenceFinish** (Default `undefined`): Callback that is called each time a sentence is finished.
 
-### Any alternatives?
+## Any alternatives?
 
 The goal of this plugin is to be as lightweight and simple as posible, for another similar plugin check [typed.js](https://github.com/mattboldt/typed.js/)
