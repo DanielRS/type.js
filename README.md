@@ -15,15 +15,25 @@ $('p').type({ sentences: ['Lorem ipSOM do', 'Lorem ipsum dolor SIT amet', 'Lorem
 ### Options
 
 **sentences**: List of strings to render in the selected elements.
+
 **caretChar** (Default `_`): String that will be used as the caret character.
+
 **caretClass** (Default `typingjs__caret`): Class to be used for the caret character. Can be styled using CSS.
+
 **ignoreContent** (Default `false`): if set to true, the current content in the selected elements will be cleared without typing animation.
+
 **typeDelay** (Default `50`): The delay in milliseconds between each typed character.
+
 **sentenceDelay** (Default `750`): The delay in milliseconds between each sentence.
+
 **humanize** (Default `true`): Adds noise to typeDelay, so the typing looks less robotic.
+
 **onType** (Default `undefined`): Callback that is called each time a new character is entered.
+
 **onBackspace** (Default `undefined`): Callback that is called each time a new character is deleted.
+
 **onFinish** (Default `undefined`): Callback that is called when the plugin finished its job.
+
 **onSentenceFinish** (Default `undefined`): Callback that is called each time a sentence is finished.
 
 ### Any alternatives?
