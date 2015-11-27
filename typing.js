@@ -1,8 +1,27 @@
 (function($) {
 
-	// Checks if object given is a function. Taken from underscorejs source code
+	//
+	// Utility functions
+	//
+
+	// Checks if the given object is a function. Taken from underscorejs source code
 	function isFunction(obj) {
 		return !!(obj && obj.constructor && obj.call && obj.apply);
+	}
+
+	// Checks if the given object is an array.
+	function isArray(obj) {
+		return toString(obj) === "[object Array]";
+	}
+
+	// Returns the same array except from the first element
+	function tail(array) {
+		return array.slice(0);
+	}
+
+	// Returns the first element of the array
+	function head(array) {
+		return array[0];
 	}
 
 	// Drops the given number of characters from the end of the string
@@ -20,10 +39,15 @@
 		return current;
 	}
 
-	$.fn.type = function(targetStr, options) {
+	//
+	// Typying.js function
+	//
+
+	$.fn.type = function(options) {
 
 		// SETTINGS
 		var settings = {
+			sentences: ['Hello', 'Try your own sentences!', 'Don\'t be lazy'],
 			caretChar: '_',
 			caretClass: 'typejs__caret',
 			ignoreContent: false,
@@ -49,7 +73,7 @@
 			this_.append($content);
 			this_.append($caret);
 
-			function typeStep(current, target) {
+			function typeSentence(current, target, sentences) {
 				if (current !== target) {
 					var newStr = typeTo(current, target);
 					// Step callback
@@ -61,15 +85,24 @@
 					// Update content
 					$content.text(newStr);
 					// Next step
-					setTimeout(typeStep, settings.typeDelay, newStr, targetStr);
-				} else if (isFunction(settings.onFinish)) {
-					// Finished callback
+					setTimeout(typeSentence, settings.typeDelay, newStr, targetStr, sentences);
+				} else {
+					typeArray(tail(sentences));
+				}
+			}
+
+			function typeArray(sentences) {
+				var targetStr = head(sentences);
+				if (text !== undefined) {
+					setTimeout(typeSentence, settings.sentenceDelay, $content.text(), targetStr);
+				}
+				else {
+					// onFinish callback
 					settings.onFinish.call(this_);
 				}
 			}
 
-			setTimeout(typeStep, settings.typeDelay, $content.text(), targetStr);
-
+			typeArray(settings.sentences);
 		}); // each
 	}; // function type
 })(jQuery);
