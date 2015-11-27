@@ -8,30 +8,24 @@ Simply use jQuery's selection and call `type`:
 
 ```
 ...
-$('p').type('Lorem ipsum dolor sit amet.')
+$('p').type({ sentences: ['Lorem ipSOM do', 'Lorem ipsum dolor SIT amet', 'Lorem ipsum dolor sit amet']});
 ...
 ```
 
-You can even write animated sentences using the following code:
+### Options
 
-```
-...
-// Using underscore.js functions for simplicity
-var taglineMessages = _.map($('ul#tagline__messages > li'), function(obj) { return $(obj).text() });
-function typeArray($elem, array) {
-	var text = _.first(array);
-	if (text !== undefined) {
-		$elem.type(text, {
-			onFinish: function() {
-				setTimeout(function() { typeArray($elem, _.tail(array)); }, 750);
-			}
-		});
-	}
-}
-typeArray($('#tagline'), taglineMessages);
-...
-```
+**sentences**: List of strings to render in the selected elements.
+**caretChar** (Default `_`): String that will be used as the caret character.
+**caretClass** (Default `typingjs__caret`): Class to be used for the caret character. Can be styled using CSS.
+**ignoreContent** (Default `false`): if set to true, the current content in the selected elements will be cleared without typing animation.
+**typeDelay** (Default `50`): The delay in milliseconds between each typed character.
+**sentenceDelay** (Default `750`): The delay in milliseconds between each sentence.
+**humanize** (Default `true`): Adds noise to typeDelay, so the typing looks less robotic.
+**onType** (Default `undefined`): Callback that is called each time a new character is entered.
+**onBackspace** (Default `undefined`): Callback that is called each time a new character is deleted.
+**onFinish** (Default `undefined`): Callback that is called when the plugin finished its job.
+**onSentenceFinish** (Default `undefined`): Callback that is called each time a sentence is finished.
 
-### More features?
+### Any alternatives?
 
-The goal of this plugin is to be as lightweight and simple as posible, for more features check [typed.js](https://github.com/mattboldt/typed.js/)
+The goal of this plugin is to be as lightweight and simple as posible, for another similar plugin check [typed.js](https://github.com/mattboldt/typed.js/)

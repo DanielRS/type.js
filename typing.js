@@ -60,10 +60,10 @@
 			typeDelay: 50,
 			sentenceDelay: 750,
 			humanize: true,
-			onType: null,
-			onBackspace: null,
-			onFinish: null,
-			onSentenceFinish: null
+			onType: undefined,
+			onBackspace: undefined,
+			onFinish: undefined,
+			onSentenceFinish: undefined
 		};
 		$.extend(settings, options);
 
@@ -85,7 +85,7 @@
 			this_.append($content);
 			this_.append($caret);
 
-			// All the sentences to type
+			// Variable for sentences state
 			var sentencesLeft = settings.sentences;
 
 			function typeSentence(currentStr, targetStr) {
