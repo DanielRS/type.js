@@ -16,7 +16,7 @@
 
 	// Returns the same array except from the first element
 	function tail(array) {
-		return array.slice(0);
+		return array.slice(1);
 	}
 
 	// Returns the first element of the array
@@ -49,13 +49,14 @@
 		var settings = {
 			sentences: ['Hello', 'Try your own sentences!', 'Don\'t be lazy'],
 			caretChar: '_',
-			caretClass: 'typejs__caret',
+			caretClass: 'typingjs__caret',
 			ignoreContent: false,
 			typeDelay: 50,
 			sentenceDelay: 750,
 			onType: null,
 			onBackspace: null,
 			onFinish: null
+			onSentenceFinish: null,
 		};
 		$.extend(settings, options);
 
@@ -63,11 +64,14 @@
 
 			// Sets up element
 			var this_ = $(this);
-			var text = this_.text();
-			if (this_.children('.typejs__content').length > 0)
-				text = this_.children('.typejs__content').text();
+			var text = '';
+			if (!settings.ignoreContent) {
+				text = this_.text();
+				if (this_.children('.typingjs__content').length > 0)
+					text = this_.children('.typingjs__content').text();
+			}
 
-			var $content = $('<span>', { class: 'typejs__content', text: text});
+			var $content = $('<span>', { class: 'typingjs__content', text: text});
 			var $caret = $('<span>', { class: settings.caretClass, text: settings.caretChar });
 
 			this_.empty();
@@ -88,6 +92,7 @@
 					// Next step
 					setTimeout(typeSentence, settings.typeDelay, newStr, targetStr, sentences);
 				} else {
+					settings.onSentenceFinish.call(this_);
 					typeArray(tail(sentences));
 				}
 			}
@@ -95,10 +100,9 @@
 			function typeArray(sentences) {
 				var targetStr = head(sentences);
 				if (text !== undefined) {
-					setTimeout(typeSentence, settings.sentenceDelay, $content.text(), targetStr);
+					setTimeout(typeSentence, settings.sentenceDelay, $content.text(), targetStr, sentences);
 				}
 				else {
-					// onFinish callback
 					settings.onFinish.call(this_);
 				}
 			}
