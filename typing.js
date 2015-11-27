@@ -78,7 +78,10 @@
 			this_.append($content);
 			this_.append($caret);
 
-			function typeSentence(currentStr, targetStr, sentences) {
+			// All the sentences to type
+			var sentencesLeft = settings.sentences;
+
+			function typeSentence(currentStr, targetStr) {
 				if (currentStr !== targetStr) {
 					var newStr = typeTo(currentStr, targetStr);
 					// Step callback
@@ -90,25 +93,26 @@
 					// Update content
 					$content.text(newStr);
 					// Next step
-					setTimeout(typeSentence, settings.typeDelay, newStr, targetStr, sentences);
+					setTimeout(typeSentence, settings.typeDelay, newStr, targetStr);
 				} else {
 					if (isFunction(settings.onSentenceFinish))
 						settings.onSentenceFinish.call(this_);
-					typeArray(tail(sentences));
+					typeArray();
 				}
 			}
 
-			function typeArray(sentences) {
-				var targetStr = head(sentences);
-				if (text !== undefined) {
-					setTimeout(typeSentence, settings.sentenceDelay, $content.text(), targetStr, sentences);
+			function typeArray() {
+				var targetStr = head(sentencesLeft);
+				sentencesLeft = tail(sentencesLeft);
+				if (targetStr !== undefined) {
+					setTimeout(typeSentence, settings.sentenceDelay, $content.text(), targetStr);
 				}
 				else if (isFunction(settings.onFinish)) {
 					settings.onFinish.call(this_);
 				}
 			}
+			typeArray();
 
-			typeArray(settings.sentences);
 		}); // each
 	}; // function type
 })(jQuery);
