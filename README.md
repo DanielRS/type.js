@@ -1,6 +1,6 @@
 # typing.js
 
-A simple and lightweight jQuery plugin for type animations.
+A simple and lightweight jQuery plugin for type animations. Check the [stress-test demo](http://codepen.io/DanielRS/pen/jbjoZN)
 
 ### Usage
 
