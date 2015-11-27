@@ -2,6 +2,12 @@
 
 A simple and lightweight jQuery plugin for type animations. Check the [stress-test demo](http://codepen.io/DanielRS/pen/jbjoZN)
 
+### Installation
+
+The plugin is available in bower:
+
+`bower install typing.js`
+
 ### Usage
 
 Simply use jQuery's selection and call `type`:
