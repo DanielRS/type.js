@@ -93,6 +93,7 @@
 
 			function typeArray(sentences) {
 				var targetStr = head(sentences);
+				console.log(targetStr);
 				if (text !== undefined) {
 					setTimeout(typeSentence, settings.sentenceDelay, $content.text(), targetStr);
 				}
