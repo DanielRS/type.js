@@ -25,8 +25,14 @@
 	}
 
 	// Drops the given number of characters from the end of the string
-	function dropTail (string, n) {
+	function dropTail(string, n) {
 		return string.substr(0, string.length - n);
+	}
+
+	// Takes a value and a noise value, returns the origin value noised over the specified noise range
+	// E.g. noise(x, 2) = x - 2 <= y <= x + 2
+	function noise(x, delta) {
+		return Math.round(Math.random() * delta * 2 - delta) + x;
 	}
 
 	// Returns a new string, 1 edit distance from current and closer to target
@@ -53,6 +59,7 @@
 			ignoreContent: false,
 			typeDelay: 50,
 			sentenceDelay: 750,
+			humanize: true,
 			onType: null,
 			onBackspace: null,
 			onFinish: null,
@@ -93,7 +100,9 @@
 					// Update content
 					$content.text(newStr);
 					// Next step
-					setTimeout(typeSentence, settings.typeDelay, newStr, targetStr);
+					var humanTimeout = settings.typeDelay;
+					if (humanize) humanTimeout = noise(settings.typeDelay, settings.typeDelay / 2);
+					setTimeout(typeSentence, humanTimeout, newStr, targetStr);
 				} else {
 					if (isFunction(settings.onSentenceFinish))
 						settings.onSentenceFinish.call(this_);
