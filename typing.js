@@ -55,8 +55,8 @@
 			sentenceDelay: 750,
 			onType: null,
 			onBackspace: null,
-			onFinish: null
-			onSentenceFinish: null,
+			onFinish: null,
+			onSentenceFinish: null
 		};
 		$.extend(settings, options);
 
