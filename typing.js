@@ -101,7 +101,7 @@
 					$content.text(newStr);
 					// Next step
 					var humanTimeout = settings.typeDelay;
-					if (humanize) humanTimeout = noise(settings.typeDelay, settings.typeDelay / 2);
+					if (settings.humanize) humanTimeout = noise(settings.typeDelay, settings.typeDelay / 2);
 					setTimeout(typeSentence, humanTimeout, newStr, targetStr);
 				} else {
 					if (isFunction(settings.onSentenceFinish))
