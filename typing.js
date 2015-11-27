@@ -52,6 +52,7 @@
 			caretClass: 'typejs__caret',
 			ignoreContent: false,
 			typeDelay: 50,
+			sentenceDelay: 750,
 			onType: null,
 			onBackspace: null,
 			onFinish: null
