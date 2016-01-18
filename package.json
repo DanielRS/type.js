@@ -1,0 +1,30 @@
+{
+  "name": "typing.js",
+  "version": "0.2.2",
+  "description": "jQuery plugin for typing animations",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DanielRS/typing.js.git"
+  },
+  "keywords": [
+    "jquery",
+    "plugin",
+    "typing",
+    "animation"
+  ],
+  "author": "Daniel Rivas",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DanielRS/typing.js/issues"
+  },
+  "homepage": "https://github.com/DanielRS/typing.js#readme",
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^1.5.1"
+  }
+}
