@@ -49,7 +49,7 @@
 	// Typying.js function
 	//
 
-	$.fn.type = function(options) {
+	$.fn.typing = function(options) {
 
 		// SETTINGS
 		var settings = {
@@ -123,5 +123,5 @@
 			typeArray();
 
 		}); // each
-	}; // function type
+	}; // function typing
 })(jQuery);
