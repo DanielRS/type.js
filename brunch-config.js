@@ -14,7 +14,11 @@ exports.config = {
 
   conventions: {
     ignored: [/^bower_components/],
-    vendor: /^(bower_components|node_modules|vendor|src)[\\/]/
+    vendor: /^(bower_components|node_modules|vendor|src)/
+  },
+
+  modules: {
+    definition: false
   },
 
   overrides: {
