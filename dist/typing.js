@@ -109,7 +109,6 @@
   require._cache = cache;
   globals.require = require;
 })();
-require.register("src/typing", function(exports, require, module) {
 (function($) {
 
 	//
@@ -237,8 +236,6 @@ require.register("src/typing", function(exports, require, module) {
 		}); // each
 	}; // function typing
 })(jQuery);
-
-});
 
 
 //# sourceMappingURL=typing.js.map
