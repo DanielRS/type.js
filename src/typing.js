@@ -54,9 +54,9 @@
 
 			var prevLength = current.length;
 			if (predicateIsTrue) {
-				current = dropTail(current, 1);
-			} else {
 				current = current + target.charAt(current.length);
+			} else {
+				current = dropTail(current, 1);
 			}
 
 			return {
