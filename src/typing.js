@@ -4,7 +4,7 @@
 	// Utility functions
 	//
 
-	// Checks if the given object is a function. Taken from underscorejs source code
+	// Checks if the given object is a function. Taken from underscorejs source code.
 	function isFunction(obj) {
 		return !!(obj && obj.constructor && obj.call && obj.apply);
 	}
@@ -14,12 +14,12 @@
 		return toString(obj) === "[object Array]";
 	}
 
-	// Returns the same array except from the first element
+	// Returns the same array skipping the first element.
 	function tail(array) {
 		return array.slice(1);
 	}
 
-	// Returns the first element of the array
+	// Returns the first element of the array.
 	function head(array) {
 		return array[0];
 	}
@@ -29,24 +29,57 @@
 		return string.substr(0, string.length - n);
 	}
 
-	// Takes a value and a noise value, returns the origin value noised over the specified noise range
+	// Returns the original value with the given noise applied.
 	// E.g. noise(x, 2) = x - 2 <= y <= x + 2
 	function noise(x, delta) {
 		return Math.round(Math.random() * delta * 2 - delta) + x;
 	}
 
-	// Returns a new string, 1 edit distance from current and closer to target
-	function typeTo(current, target) {
-		if (current !== target) {
-			var subTarget = target.substr(0, current.length);
-			if (current !== subTarget) return dropTail(current, 1);
-			else return current + target.charAt(current.length);
-		}
-		return current;
+	// Creates a function that takes a string, target and predicate.
+	// The created function then takes a character from the given
+	// string each time it is called until the predicate returns true.
+	// After that, it starts adding the characters from the target
+	// string until the current string has the same length as target.
+	function makeTypeTo(current, target, predicate) {
+		var predicateIsTrue = false;
+		var current = current;
+		var target = target;
+
+		return function() {
+			predicateIsTrue = predicateIsTrue || predicate(current, target);
+
+			if (predicateIsTrue && current.length >= target.length) {
+				return {current: current, isBackspace: false, isType: false, isDone: true};
+			}
+
+			var prevLength = current.length;
+			if (predicateIsTrue) {
+				current = dropTail(current, 1);
+			} else {
+				current = current + target.charAt(current.length);
+			}
+
+			return {
+				current: current,
+				isBackspace: current.length < prevLength,
+				isType: current.length > prevLength,
+				isDone: false
+			};
+		};
+	}
+
+	// Checks if the given prefix is prefix of target.
+	function isPrefix(prefix, target) {
+		return target.substr(0, prefix.length) == prefix;
+	}
+
+	// Checks if the given string has length zero.
+	function isEmpty(string) {
+		return string.length == 0;
 	}
 
 	//
-	// Typying.js function
+	// Typying.js extension function.
 	//
 
 	$.fn.typing = function(options) {
@@ -56,10 +89,13 @@
 			sentences: ['Hello', 'Try your own sentences!', 'Don\'t be lazy'],
 			caretChar: '_',
 			caretClass: 'typingjs__caret',
+
 			ignoreContent: false,
+			ignoreSentence: false,
 			typeDelay: 50,
 			sentenceDelay: 750,
 			humanize: true,
+
 			onType: undefined,
 			onBackspace: undefined,
 			onFinish: undefined,
@@ -88,25 +124,32 @@
 			// Variable for sentences state
 			var sentencesLeft = settings.sentences;
 
-			function typeSentence(currentStr, targetStr) {
-				if (currentStr !== targetStr) {
-					var newStr = typeTo(currentStr, targetStr);
-					// Step callback
-					if (newStr.length > currentStr.length && isFunction(settings.onType)) {
-						settings.onType.call(this_);
-					} else if (newStr.length < currentStr.length && isFunction(settings.onBackspace)) {
-						settings.onBackspace.call(this_)
-					}
-					// Update content
-					$content.text(newStr);
-					// Next step
-					var humanTimeout = settings.typeDelay;
-					if (settings.humanize) humanTimeout = noise(settings.typeDelay, settings.typeDelay / 2);
-					setTimeout(typeSentence, humanTimeout, newStr, targetStr);
-				} else {
-					if (isFunction(settings.onSentenceFinish))
+			function typeSentence(typeTo) {
+				// Reads next iteration of the typing animation.
+				var next = typeTo();
+				var current = next.current;
+				var isBackspace = next.isBackspace;
+				var isType = next.isType;
+				var isDone = next.isDone;
+
+				$content.text(current);
+
+				if (isDone) {
+					if (isFuncion(settings.onSentenceFinish))
 						settings.onSentenceFinish.call(this_);
 					typeArray();
+				} else {
+					// Callbacks.
+					if (isType && isFunction(settings.onType))
+						settings.onType.call(this_);
+					if (isBackspace && isFuncion(settings.onBackspace))
+						settings.onBackspace.call(this_);
+
+					// Next step
+					var humanTimeout = settings.typeDelay;
+					if (settings.humanize)
+						humanTimeout = noise(settings.typeDelay, settings.typeDelay);
+					setTimeout(typeSentence, humanTimeout, typeTo);
 				}
 			}
 
@@ -114,7 +157,12 @@
 				var targetStr = head(sentencesLeft);
 				sentencesLeft = tail(sentencesLeft);
 				if (targetStr !== undefined) {
-					setTimeout(typeSentence, settings.sentenceDelay, $content.text(), targetStr);
+					const typeTo = makeTypeTo(
+						$content.text(),
+						targetStr,
+						settings.ignoreSentence ? isEmpty : isPrefix
+					);
+					setTimeout(typeSentence, settings.sentenceDelay, typeTo);
 				}
 				else if (isFunction(settings.onFinish)) {
 					settings.onFinish.call(this_);

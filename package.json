@@ -1,6 +1,6 @@
 {
   "name": "typing.js",
-  "version": "0.2.6",
+  "version": "0.3.0",
   "description": "jQuery plugin for typing animations",
   "main": "index.js",
   "scripts": {
