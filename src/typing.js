@@ -1,87 +1,6 @@
+import {head, tail, isFunction, noise, makePrefixTyper, makeTyper} from "./util";
+
 (function($) {
-
-	//
-	// Utility functions
-	//
-
-	// Checks if the given object is a function. Taken from underscorejs source code.
-	function isFunction(obj) {
-		return !!(obj && obj.constructor && obj.call && obj.apply);
-	}
-
-	// Checks if the given object is an array.
-	function isArray(obj) {
-		return toString(obj) === "[object Array]";
-	}
-
-	// Returns the same array skipping the first element.
-	function tail(array) {
-		return array.slice(1);
-	}
-
-	// Returns the first element of the array.
-	function head(array) {
-		return array[0];
-	}
-
-	// Drops the given number of characters from the end of the string
-	function dropTail(string, n) {
-		return string.substr(0, string.length - n);
-	}
-
-	// Returns the original value with the given noise applied.
-	// E.g. noise(x, 2) = x - 2 <= y <= x + 2
-	function noise(x, delta) {
-		return Math.round(Math.random() * delta * 2 - delta) + x;
-	}
-
-	// Creates a function that takes a string, target and predicate.
-	// The created function then takes a character from the given
-	// string each time it is called until the predicate returns true.
-	// After that, it starts adding the characters from the target
-	// string until the current string has the same length as target.
-	function makeTypeTo(current, target, predicate) {
-		var predicateIsTrue = false;
-		var current = current;
-		var target = target;
-
-		return function() {
-			predicateIsTrue = predicateIsTrue || predicate(current, target);
-
-			if (predicateIsTrue && current.length >= target.length) {
-				return {current: current, isBackspace: false, isType: false, isDone: true};
-			}
-
-			var prevLength = current.length;
-			if (predicateIsTrue) {
-				current = current + target.charAt(current.length);
-			} else {
-				current = dropTail(current, 1);
-			}
-
-			return {
-				current: current,
-				isBackspace: current.length < prevLength,
-				isType: current.length > prevLength,
-				isDone: false
-			};
-		};
-	}
-
-	// Checks if the given prefix is prefix of target.
-	function isPrefix(prefix, target) {
-		return target.substr(0, prefix.length) == prefix;
-	}
-
-	// Checks if the given string has length zero.
-	function isEmpty(string) {
-		return string.length == 0;
-	}
-
-	//
-	// Typying.js extension function.
-	//
-
 	$.fn.typing = function(options) {
 
 		// SETTINGS
@@ -124,32 +43,28 @@
 			// Variable for sentences state
 			var sentencesLeft = settings.sentences;
 
-			function typeSentence(typeTo) {
+			function typeSentence(typer) {
 				// Reads next iteration of the typing animation.
-				var next = typeTo();
-				var current = next.current;
-				var isBackspace = next.isBackspace;
-				var isType = next.isType;
-				var isDone = next.isDone;
+				const {current, isType, isBackspace, isDone} = typer();
 
 				$content.text(current);
 
 				if (isDone) {
-					if (isFuncion(settings.onSentenceFinish))
+					if (isFunction(settings.onSentenceFinish))
 						settings.onSentenceFinish.call(this_);
 					typeArray();
 				} else {
 					// Callbacks.
 					if (isType && isFunction(settings.onType))
 						settings.onType.call(this_);
-					if (isBackspace && isFuncion(settings.onBackspace))
+					if (isBackspace && isFunction(settings.onBackspace))
 						settings.onBackspace.call(this_);
 
 					// Next step
 					var humanTimeout = settings.typeDelay;
 					if (settings.humanize)
 						humanTimeout = noise(settings.typeDelay, settings.typeDelay);
-					setTimeout(typeSentence, humanTimeout, typeTo);
+					setTimeout(typeSentence, humanTimeout, typer);
 				}
 			}
 
@@ -157,12 +72,11 @@
 				var targetStr = head(sentencesLeft);
 				sentencesLeft = tail(sentencesLeft);
 				if (targetStr !== undefined) {
-					const typeTo = makeTypeTo(
-						$content.text(),
-						targetStr,
-						settings.ignoreSentence ? isEmpty : isPrefix
-					);
-					setTimeout(typeSentence, settings.sentenceDelay, typeTo);
+					var typer = makePrefixTyper($content.text(), targetStr);
+					if (settings.ignoreSentence) {
+						typer = makeTyper($content.text(), targetStr, curr => curr.length == 0);
+					}
+					setTimeout(typeSentence, settings.sentenceDelay, typer);
 				}
 				else if (isFunction(settings.onFinish)) {
 					settings.onFinish.call(this_);

@@ -5,9 +5,7 @@
   ],
   "description": "jQuery plugin for typing animations",
   "main": "dist/typing.js",
-  "dependencies": {
-	"jquery": "~2.1.4"
-  },
+  "dependencies": {},
   "moduleType": [
     "globals"
   ],

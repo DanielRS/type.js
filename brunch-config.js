@@ -1,8 +1,8 @@
-exports.config = {
+module.exports = {
   files: {
     javascripts: {
-      joinTo: {
-        "typing.js": "src/typing.js",
+      entryPoints: {
+        "src/typing.js": "typing.js"
       }
     },
   },
@@ -14,11 +14,20 @@ exports.config = {
 
   conventions: {
     ignored: [/^bower_components/],
-    vendor: /^(bower_components|node_modules|vendor|src)/
+    vendor: /^(bower_components|node_modules|vendor)/
+  },
+
+  plugins: {
+    babel: {
+      presets: ["env"],
+      ignore: [/node_modules/, /bower_components/]
+    }
   },
 
   modules: {
-    definition: false
+    autoRequire: {
+      "typing.js": ["src/typing"]
+    }
   },
 
   overrides: {
@@ -26,11 +35,14 @@ exports.config = {
       files: {
         javascripts: {
           joinTo: {
-            "typing.min.js": "src/typing.js"
+            "typing.min.js": /^src/
           }
         }
       }
     }
-  }
+  },
 
+  bower: {
+    enabled: false
+  }
 };
