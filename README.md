@@ -22,7 +22,7 @@ $('p').typing({ sentences: ['Lorem ipSOM do', 'Lorem ipsum dolor SIT amet', 'Lor
 
 | Option | Default | Description |
 | ------ | ------- | ----------- |
-| `sentences` | `-` | List of strings to render in the selected elements. |
+| `sentences` | `['Hello typing.js']` | List of strings to render in the selected elements. |
 | `caretChar` | `_` | String that will be used as the caret character. |
 | `caretClass` | `typingjs__caret` | Class to be used for the caret character. Can be styled using CSS. |
 | `ignoreContent` | `false` | If set to true, the current content in the selected elements will be cleared without typing animation. |

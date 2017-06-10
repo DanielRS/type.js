@@ -5,7 +5,7 @@ import {head, tail, isFunction, noise, makePrefixTyper, makeTyper} from "./util"
 
 		// SETTINGS
 		var settings = {
-			sentences: ['Hello', 'Try your own sentences!', 'Don\'t be lazy'],
+			sentences: ['Hello typing.js'],
 			caretChar: '_',
 			caretClass: 'typingjs__caret',
 
