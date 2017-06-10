@@ -162,7 +162,7 @@ var _util = require('./util');
 			caretClass: 'typingjs__caret',
 
 			ignoreContent: false,
-			ignoreSentence: false,
+			ignorePrefix: false,
 			typeDelay: 50,
 			sentenceDelay: 750,
 			humanize: true,
@@ -224,7 +224,7 @@ var _util = require('./util');
 				sentencesLeft = (0, _util.tail)(sentencesLeft);
 				if (targetStr !== undefined) {
 					var typer = (0, _util.makePrefixTyper)($content.text(), targetStr);
-					if (settings.ignoreSentence) {
+					if (settings.ignorePrefix) {
 						typer = (0, _util.makeTyper)($content.text(), targetStr, function (curr) {
 							return curr.length == 0;
 						});

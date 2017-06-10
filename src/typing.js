@@ -10,7 +10,7 @@ import {head, tail, isFunction, noise, makePrefixTyper, makeTyper} from "./util"
 			caretClass: 'typingjs__caret',
 
 			ignoreContent: false,
-			ignoreSentence: false,
+			ignorePrefix: false,
 			typeDelay: 50,
 			sentenceDelay: 750,
 			humanize: true,
@@ -73,7 +73,7 @@ import {head, tail, isFunction, noise, makePrefixTyper, makeTyper} from "./util"
 				sentencesLeft = tail(sentencesLeft);
 				if (targetStr !== undefined) {
 					var typer = makePrefixTyper($content.text(), targetStr);
-					if (settings.ignoreSentence) {
+					if (settings.ignorePrefix) {
 						typer = makeTyper($content.text(), targetStr, curr => curr.length == 0);
 					}
 					setTimeout(typeSentence, settings.sentenceDelay, typer);
