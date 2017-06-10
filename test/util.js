@@ -191,6 +191,11 @@ describe("util", function() {
       assert.deepEqual(typer(), {current: "123", pending: "4", isType: true, isBackspace: false, isDone: false});
       assert.deepEqual(typer(), {current: "1234", pending: "", isType: true, isBackspace: false, isDone: true});
       assert.deepEqual(typer(), {current: "1234", pending: "", isType: false, isBackspace: false, isDone: true});
+
+      typer = util.makePrefixTyper("abcd", "abcde");
+      assert.deepEqual(typer(), {current: "abcd", pending: "e", isType: false, isBackspace: false, isDone: false});
+      assert.deepEqual(typer(), {current: "abcde", pending: "", isType: true, isBackspace: false, isDone: true});
+      assert.deepEqual(typer(), {current: "abcde", pending: "", isType: false, isBackspace: false, isDone: true});
     });
   });
 });

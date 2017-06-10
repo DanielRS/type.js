@@ -337,7 +337,7 @@ function isEmpty(string) {
 // the characters of the given string one by one each time
 // it is called.
 function makeTyper(current, pending, predicate) {
-	var forward = current.length == 0;
+	var forward = current.length == 0 || predicate(current, pending);
 	var prevLength = current.length;
 	return function () {
 		var step = {
