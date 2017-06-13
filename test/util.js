@@ -169,7 +169,7 @@ describe("util", function() {
   });
 
   describe("#makePrefixTyper()", function() {
-    it("Should deletes until common prefix", function() {
+    it("Should delete until common prefix", function() {
       var typer;
 
       typer = util.makePrefixTyper("ab12", "abcd");
