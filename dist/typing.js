@@ -150,49 +150,68 @@ var __makeRelativeRequire = function(require, mappings, pref) {
 require.register("src/typing.js", function(exports, require, module) {
 'use strict';
 
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
 var _util = require('./util');
 
-(function ($) {
-	$.fn.typing = function (options) {
+var DEFAULT_SETTINGS = {
+	sentences: ['Hello typing.js'],
+	caretChar: '_',
+	caretClass: 'typingjs__caret',
 
-		// SETTINGS
-		var settings = {
-			sentences: ['Hello typing.js'],
-			caretChar: '_',
-			caretClass: 'typingjs__caret',
+	ignoreContent: false,
+	ignorePrefix: false,
+	typeDelay: 50,
+	sentenceDelay: 750,
+	humanize: true,
 
-			ignoreContent: false,
-			ignorePrefix: false,
-			typeDelay: 50,
-			sentenceDelay: 750,
-			humanize: true,
+	onType: undefined,
+	onBackspace: undefined,
+	onFinish: undefined,
+	onSentenceFinish: undefined
+};
 
-			onType: undefined,
-			onBackspace: undefined,
-			onFinish: undefined,
-			onSentenceFinish: undefined
-		};
-		$.extend(settings, options);
+var Typing = {
+	new: function _new(selector, options) {
+		var elements = document.querySelectorAll(selector);
+		this.newWithElements(elements, options);
+	},
 
-		return this.each(function () {
+	newWithElements: function newWithElements(elements, options) {
+		// Settings.
+		var settings = {};
+		for (var attr in DEFAULT_SETTINGS) {
+			settings[attr] = DEFAULT_SETTINGS[attr];
+		}
+		for (var attr in options) {
+			settings[attr] = options[attr];
+		}
 
-			// Sets up element
-			var this_ = $(this);
-			var text = '';
-			if (!settings.ignoreContent) {
-				text = this_.text();
-				if (this_.children('.typingjs__content').length > 0) text = this_.children('.typingjs__content').text();
-			}
+		var _loop = function _loop() {
+			var el = elements[i];
 
-			var $content = $('<span>', { class: 'typingjs__content', text: text });
-			var $caret = $('<span>', { class: settings.caretClass, text: settings.caretChar });
+			// Creates initial elements.
+			var initialText = settings.ignoreContent ? '' : el.textContent;
 
-			this_.empty();
-			this_.append($content);
-			this_.append($caret);
+			var content = document.createElement('span');
+			content.className = 'typingjs__content';
+			content.textContent = initialText;
 
-			// Variable for sentences state
-			var sentencesLeft = settings.sentences;
+			caret = document.createElement('caret');
+
+			caret.className = settings.caretClass;
+			caret.textContent = settings.caretChar;
+
+			el.innerHTML = '';
+			el.appendChild(content);
+			el.appendChild(caret);
+
+			// Starts progress here.
+			console.log(settings);
+			sentencesLeft = settings.sentences;
+
 
 			function typeSentence(typer) {
 				// Reads next iteration of the typing animation.
@@ -202,7 +221,7 @@ var _util = require('./util');
 				    isBackspace = _typer.isBackspace,
 				    isDone = _typer.isDone;
 
-				$content.text(current);
+				content.textContent = current;
 
 				if (isDone) {
 					if ((0, _util.isFunction)(settings.onSentenceFinish)) settings.onSentenceFinish.call(this_);
@@ -223,9 +242,9 @@ var _util = require('./util');
 				var targetStr = (0, _util.head)(sentencesLeft);
 				sentencesLeft = (0, _util.tail)(sentencesLeft);
 				if (targetStr !== undefined) {
-					var typer = (0, _util.makePrefixTyper)($content.text(), targetStr);
+					var typer = (0, _util.makePrefixTyper)(content.textContent, targetStr);
 					if (settings.ignorePrefix) {
-						typer = (0, _util.makeTyper)($content.text(), targetStr, function (curr) {
+						typer = (0, _util.makeTyper)(content.textContent, targetStr, function (curr) {
 							return curr.length == 0;
 						});
 					}
@@ -234,10 +253,29 @@ var _util = require('./util');
 					settings.onFinish.call(this_);
 				}
 			}
+
 			typeArray();
-		}); // each
-	}; // function typing
-})(jQuery);
+		};
+
+		for (var i = 0; i < elements.length; i++) {
+			var caret;
+			var sentencesLeft;
+
+			_loop();
+		};
+	}
+};
+
+if (typeof jQuery != 'undefined') {
+	(function ($) {
+		$.fn.typing = function (options) {
+			Typing.newWithElements(this.get());
+		};
+	})(jQuery);
+}
+
+window.Typing = Typing;
+exports.default = Typing;
 
 });
 

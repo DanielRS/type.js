@@ -1,53 +1,61 @@
 import {head, tail, isFunction, noise, makePrefixTyper, makeTyper} from "./util";
 
-(function($) {
-	$.fn.typing = function(options) {
+const DEFAULT_SETTINGS = {
+	sentences: ['Hello typing.js'],
+	caretChar: '_',
+	caretClass: 'typingjs__caret',
 
-		// SETTINGS
-		var settings = {
-			sentences: ['Hello typing.js'],
-			caretChar: '_',
-			caretClass: 'typingjs__caret',
+	ignoreContent: false,
+	ignorePrefix: false,
+	typeDelay: 50,
+	sentenceDelay: 750,
+	humanize: true,
 
-			ignoreContent: false,
-			ignorePrefix: false,
-			typeDelay: 50,
-			sentenceDelay: 750,
-			humanize: true,
+	onType: undefined,
+	onBackspace: undefined,
+	onFinish: undefined,
+	onSentenceFinish: undefined
+};
 
-			onType: undefined,
-			onBackspace: undefined,
-			onFinish: undefined,
-			onSentenceFinish: undefined
-		};
-		$.extend(settings, options);
+const Typing = {
+	new: function(selector, options) {
+		const elements = document.querySelectorAll(selector);
+		this.newWithElements(elements, options);
+	},
 
-		return this.each(function() {
+	newWithElements: function(elements, options) {
+		// Settings.
+		const settings = {};
+		for (var attr in DEFAULT_SETTINGS) { settings[attr] = DEFAULT_SETTINGS[attr]; }
+		for (var attr in options) { settings[attr] = options[attr]; }
 
-			// Sets up element
-			var this_ = $(this);
-			var text = '';
-			if (!settings.ignoreContent) {
-				text = this_.text();
-				if (this_.children('.typingjs__content').length > 0)
-					text = this_.children('.typingjs__content').text();
-			}
+		for (var i = 0; i < elements.length; i++) {
+			const el = elements[i];
 
-			var $content = $('<span>', { class: 'typingjs__content', text: text});
-			var $caret = $('<span>', { class: settings.caretClass, text: settings.caretChar });
+			// Creates initial elements.
+			const initialText = settings.ignoreContent ? '' : el.textContent;
 
-			this_.empty();
-			this_.append($content);
-			this_.append($caret);
+			const content = document.createElement('span');
+			content.className = 'typingjs__content';
+			content.textContent = initialText;
 
-			// Variable for sentences state
+			var caret = document.createElement('caret');
+			caret.className = settings.caretClass;
+			caret.textContent = settings.caretChar;
+
+			el.innerHTML = '';
+			el.appendChild(content);
+			el.appendChild(caret);
+
+			// Starts progress here.
+			console.log(settings);
 			var sentencesLeft = settings.sentences;
 
 			function typeSentence(typer) {
 				// Reads next iteration of the typing animation.
 				const {current, isType, isBackspace, isDone} = typer();
 
-				$content.text(current);
+				content.textContent = current;
 
 				if (isDone) {
 					if (isFunction(settings.onSentenceFinish))
@@ -72,9 +80,9 @@ import {head, tail, isFunction, noise, makePrefixTyper, makeTyper} from "./util"
 				var targetStr = head(sentencesLeft);
 				sentencesLeft = tail(sentencesLeft);
 				if (targetStr !== undefined) {
-					var typer = makePrefixTyper($content.text(), targetStr);
+					var typer = makePrefixTyper(content.textContent, targetStr);
 					if (settings.ignorePrefix) {
-						typer = makeTyper($content.text(), targetStr, curr => curr.length == 0);
+						typer = makeTyper(content.textContent, targetStr, curr => curr.length == 0);
 					}
 					setTimeout(typeSentence, settings.sentenceDelay, typer);
 				}
@@ -82,8 +90,19 @@ import {head, tail, isFunction, noise, makePrefixTyper, makeTyper} from "./util"
 					settings.onFinish.call(this_);
 				}
 			}
-			typeArray();
 
-		}); // each
-	}; // function typing
-})(jQuery);
+			typeArray();
+		};
+	}
+};
+
+if (typeof jQuery != 'undefined') {
+	(function($) {
+		$.fn.typing = function(options) {
+			Typing.newWithElements(this.get());
+		};
+	})(jQuery);
+}
+
+window.Typing = Typing;
+export default Typing;
