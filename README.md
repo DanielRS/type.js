@@ -1,6 +1,6 @@
 # typing.js
 
-A simple and lightweight jQuery plugin for type animations. Check the [stress-test demo](http://codepen.io/DanielRS/pen/jbjoZN)
+A simple and lightweight typing animations. Check the [stress-test demo](http://codepen.io/DanielRS/pen/jbjoZN)
 
 ### Installation
 
@@ -10,7 +10,11 @@ The plugin is available in bower:
 
 ### Usage
 
-Simply use jQuery's selection and call `typing`:
+```javascript
+Typing.new('p', {sentences: ['Lorem ipSOM do', 'Lorem ipsum dolor SIT amet', 'Lorem ipsum dolor sit amet'] [...<other options>]});
+```
+
+or with jQuery:
 
 ```javascript
 ...
@@ -37,4 +41,4 @@ $('p').typing({ sentences: ['Lorem ipSOM do', 'Lorem ipsum dolor SIT amet', 'Lor
 
 ## Any alternatives?
 
-The goal of this plugin is to be as lightweight and simple as posible, for another similar plugin check [typed.js](https://github.com/mattboldt/typed.js/)
+The goal of this library is to be as lightweight and simple as posible, for another similar projects check [typed.js](https://github.com/mattboldt/typed.js/)

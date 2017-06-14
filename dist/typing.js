@@ -209,7 +209,6 @@ var Typing = {
 			el.appendChild(caret);
 
 			// Starts progress here.
-			console.log(settings);
 			sentencesLeft = settings.sentences;
 
 

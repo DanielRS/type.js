@@ -48,7 +48,6 @@ const Typing = {
 			el.appendChild(caret);
 
 			// Starts progress here.
-			console.log(settings);
 			var sentencesLeft = settings.sentences;
 
 			function typeSentence(typer) {
