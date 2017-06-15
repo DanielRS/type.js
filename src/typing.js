@@ -20,10 +20,10 @@ const DEFAULT_SETTINGS = {
 const Typing = {
 	new: function(selector, options) {
 		const elements = document.querySelectorAll(selector);
-		this.newWithElements(elements, options);
+		this.withElements(elements, options);
 	},
 
-	newWithElements: function(elements, options) {
+	withElements: function(elements, options) {
 		// Settings.
 		const settings = merge(DEFAULT_SETTINGS, options);
 
@@ -94,7 +94,7 @@ const Typing = {
 if (typeof jQuery != 'undefined') {
 	(function($) {
 		$.fn.typing = function(options) {
-			Typing.newWithElements(this.get());
+			Typing.withElements(this.get(), options);
 		};
 	})(jQuery);
 }

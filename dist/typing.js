@@ -176,10 +176,10 @@ var DEFAULT_SETTINGS = {
 var Typing = {
 	new: function _new(selector, options) {
 		var elements = document.querySelectorAll(selector);
-		this.newWithElements(elements, options);
+		this.withElements(elements, options);
 	},
 
-	newWithElements: function newWithElements(elements, options) {
+	withElements: function withElements(elements, options) {
 		// Settings.
 		var settings = (0, _util.merge)(DEFAULT_SETTINGS, options);
 
@@ -251,7 +251,7 @@ var Typing = {
 if (typeof jQuery != 'undefined') {
 	(function ($) {
 		$.fn.typing = function (options) {
-			Typing.newWithElements(this.get());
+			Typing.withElements(this.get(), options);
 		};
 	})(jQuery);
 }
