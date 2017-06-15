@@ -183,9 +183,7 @@ var Typing = {
 		// Settings.
 		var settings = (0, _util.merge)(DEFAULT_SETTINGS, options);
 
-		var _loop = function _loop() {
-			var el = elements[i];
-
+		Array.prototype.map.call(elements, function (el) {
 			// Creates initial elements.
 			var initialText = settings.ignoreContent ? '' : el.textContent;
 
@@ -193,8 +191,7 @@ var Typing = {
 			content.className = 'typingjs__content';
 			content.textContent = initialText;
 
-			caret = document.createElement('caret');
-
+			var caret = document.createElement('caret');
 			caret.className = settings.caretClass;
 			caret.textContent = settings.caretChar;
 
@@ -203,8 +200,7 @@ var Typing = {
 			el.appendChild(caret);
 
 			// Starts progress here.
-			sentencesLeft = settings.sentences;
-
+			var sentencesLeft = settings.sentences.slice();
 
 			function typeSentence(typer) {
 				// Reads next iteration of the typing animation.
@@ -248,14 +244,7 @@ var Typing = {
 			}
 
 			typeArray();
-		};
-
-		for (var i = 0; i < elements.length; i++) {
-			var caret;
-			var sentencesLeft;
-
-			_loop();
-		};
+		});
 	}
 };
 

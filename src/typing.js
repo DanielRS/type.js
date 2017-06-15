@@ -27,9 +27,7 @@ const Typing = {
 		// Settings.
 		const settings = merge(DEFAULT_SETTINGS, options);
 
-		for (var i = 0; i < elements.length; i++) {
-			const el = elements[i];
-
+		Array.prototype.map.call(elements, el => {
 			// Creates initial elements.
 			const initialText = settings.ignoreContent ? '' : el.textContent;
 
@@ -37,7 +35,7 @@ const Typing = {
 			content.className = 'typingjs__content';
 			content.textContent = initialText;
 
-			var caret = document.createElement('caret');
+			const caret = document.createElement('caret');
 			caret.className = settings.caretClass;
 			caret.textContent = settings.caretChar;
 
@@ -46,7 +44,7 @@ const Typing = {
 			el.appendChild(caret);
 
 			// Starts progress here.
-			var sentencesLeft = settings.sentences;
+			var sentencesLeft = settings.sentences.slice();
 
 			function typeSentence(typer) {
 				// Reads next iteration of the typing animation.
@@ -89,7 +87,7 @@ const Typing = {
 			}
 
 			typeArray();
-		};
+		});
 	}
 };
 
