@@ -1,4 +1,4 @@
-import {head, tail, isFunction, noise, makePrefixTyper, makeTyper} from "./util";
+import {merge, head, tail, isFunction, noise, makePrefixTyper, makeTyper} from "./util";
 
 const DEFAULT_SETTINGS = {
 	sentences: ['Hello typing.js'],
@@ -25,9 +25,7 @@ const Typing = {
 
 	newWithElements: function(elements, options) {
 		// Settings.
-		const settings = {};
-		for (var attr in DEFAULT_SETTINGS) { settings[attr] = DEFAULT_SETTINGS[attr]; }
-		for (var attr in options) { settings[attr] = options[attr]; }
+		const settings = merge(DEFAULT_SETTINGS, options);
 
 		for (var i = 0; i < elements.length; i++) {
 			const el = elements[i];

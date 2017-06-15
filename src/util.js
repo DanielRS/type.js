@@ -1,3 +1,13 @@
+// Merges two objects.
+export function merge() {
+	const merged = {};
+	for (var i = 0; i < arguments.length; i++) {
+		const obj = arguments[i];
+		for (var attr in obj) { merged[attr] = obj[attr]; }
+	}
+	return merged;
+}
+
 // Checks if the given object is a function. Taken from underscorejs source code.
 export function isFunction(obj) {
 	return !!(obj && obj.constructor && obj.call && obj.apply);

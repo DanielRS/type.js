@@ -181,13 +181,7 @@ var Typing = {
 
 	newWithElements: function newWithElements(elements, options) {
 		// Settings.
-		var settings = {};
-		for (var attr in DEFAULT_SETTINGS) {
-			settings[attr] = DEFAULT_SETTINGS[attr];
-		}
-		for (var attr in options) {
-			settings[attr] = options[attr];
-		}
+		var settings = (0, _util.merge)(DEFAULT_SETTINGS, options);
 
 		var _loop = function _loop() {
 			var el = elements[i];
@@ -284,6 +278,7 @@ require.register("src/util.js", function(exports, require, module) {
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
+exports.merge = merge;
 exports.isFunction = isFunction;
 exports.isArray = isArray;
 exports.head = head;
@@ -299,6 +294,18 @@ exports.isPrefix = isPrefix;
 exports.isEmpty = isEmpty;
 exports.makeTyper = makeTyper;
 exports.makePrefixTyper = makePrefixTyper;
+// Merges two objects.
+function merge() {
+	var merged = {};
+	for (var i = 0; i < arguments.length; i++) {
+		var obj = arguments[i];
+		for (var attr in obj) {
+			merged[attr] = obj[attr];
+		}
+	}
+	return merged;
+}
+
 // Checks if the given object is a function. Taken from underscorejs source code.
 function isFunction(obj) {
 	return !!(obj && obj.constructor && obj.call && obj.apply);
