@@ -1,6 +1,6 @@
 # typing.js
 
-A simple and lightweight typing animations. Check the [stress-test demo](http://codepen.io/DanielRS/pen/jbjoZN)
+Simple and lightweight typing animations. Check the [stress-test demo](http://codepen.io/DanielRS/pen/jbjoZN)
 
 ### Installation
 
