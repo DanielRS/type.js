@@ -1,4 +1,4 @@
-import {merge, head, tail, isFunction, noise, makePrefixTyper, makeTyper} from "./util";
+import {merge, head, tail, isFunction, noise, makePrefixTyper, makeTyper} from "src/util";
 
 const DEFAULT_SETTINGS = {
 	sentences: ['Hello typing.js'],
@@ -101,3 +101,4 @@ if (typeof jQuery != 'undefined') {
 
 window.Typing = Typing;
 export default Typing;
+

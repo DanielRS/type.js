@@ -3,18 +3,17 @@
   "authors": [
     "Daniel Rivas <ers.daniel+dev@gmail.com>"
   ],
-  "description": "jQuery plugin for typing animations",
+  "description": "Simple and lightweight typing animations",
   "main": "dist/typing.js",
   "dependencies": {},
   "moduleType": [
     "globals"
   ],
   "keywords": [
-    "type",
-    "animation",
-    "jquery-plugin",
-    "small",
-    "lightweight"
+    "jquery",
+    "plugin",
+    "typing",
+    "animation"
   ],
   "license": "MIT",
   "homepage": "https://github.com/DanielRS/typing.js",

@@ -19,7 +19,7 @@ module.exports = {
 
   plugins: {
     babel: {
-      presets: ["env"],
+      presets: ["@babel/preset-env"],
       ignore: [/node_modules/, /bower_components/]
     }
   },
