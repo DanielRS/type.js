@@ -1,15 +1,15 @@
 module.exports = {
   files: {
     javascripts: {
-      entryPoints: {
-        "src/typing.js": "typing.js"
-      }
+      joinTo: {
+        'typing.js': 'src/*.js',
+      },
     },
   },
 
   paths: {
-    watched: ["src"],
-    public: "dist"
+    watched: ['src'],
+    public: 'dist'
   },
 
   conventions: {
@@ -19,15 +19,14 @@ module.exports = {
 
   plugins: {
     babel: {
-      presets: ["@babel/preset-env"],
+      presets: ['@babel/preset-env'],
       ignore: [/node_modules/, /bower_components/]
     }
   },
 
   modules: {
-    autoRequire: {
-      "typing.js": ["src/typing"]
-    }
+    wrapper: false,
+    definition: false,
   },
 
   overrides: {
@@ -35,7 +34,7 @@ module.exports = {
       files: {
         javascripts: {
           joinTo: {
-            "typing.min.js": /^src/
+            'typing.min.js': /^src/
           }
         }
       }
@@ -44,5 +43,9 @@ module.exports = {
 
   bower: {
     enabled: false
-  }
+  },
+
+  npm: {
+    enabled: false
+  },
 };
