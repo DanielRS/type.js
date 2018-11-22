@@ -1,9 +1,9 @@
 module.exports = {
   files: {
     javascripts: {
-      joinTo: {
-        'typing.js': 'src/*.js',
-      },
+      entryPoints: {
+        'src/typing.js': 'typing.js'
+      }
     },
   },
 
@@ -25,8 +25,9 @@ module.exports = {
   },
 
   modules: {
-    wrapper: false,
-    definition: false,
+    autoRequire: {
+      'typing.js': ['src/typing']
+    }
   },
 
   overrides: {
@@ -43,9 +44,5 @@ module.exports = {
 
   bower: {
     enabled: false
-  },
-
-  npm: {
-    enabled: false
-  },
+  }
 };
