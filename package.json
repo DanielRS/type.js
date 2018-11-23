@@ -1,8 +1,8 @@
 {
   "name": "typing.js",
-  "version": "0.4.9",
+  "version": "0.4.10",
   "description": "Simple and lightweight typing animations",
-  "main": "src/typing.js",
+  "main": "dist/typing.js",
   "scripts": {
     "test": "npx mocha --compilers @babel/register",
     "build": "webpack"
