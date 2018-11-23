@@ -1,4 +1,4 @@
-import {merge, head, tail, isFunction, noise, makePrefixTyper, makeTyper} from "src/util";
+import {merge, head, tail, isFunction, noise, makePrefixTyper, makeTyper} from "./util";
 
 const DEFAULT_SETTINGS = {
 	sentences: ['Hello typing.js'],
